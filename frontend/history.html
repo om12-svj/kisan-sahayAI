@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="mr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="किसान सहाय्य - Check-in History">
+    <title data-i18n="historyPageTitle">माझा इतिहास | किसान सहाय्य</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="history.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html" style="text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
+                    <span class="logo-icon">🌾</span>
+                    <div class="logo-text">
+                        <h1 data-i18n="appName">किसान सहाय्य</h1>
+                        <p data-i18n="appTagline">Farmer Mental Health Support</p>
+                    </div>
+                </a>
+            </div>
+            <nav class="nav-links">
+                <a href="index.html" class="nav-link" data-i18n="navCheckin">Check-in</a>
+                <a href="history.html" class="nav-link active" data-i18n="navHistory">History</a>
+                <a href="index.html#helpline-section" class="nav-link" data-i18n="navHelplines">Helplines</a>
+            </nav>
+
+            <!-- Language Selector -->
+            <div class="language-selector-wrapper">
+                <span class="lang-icon">🌐</span>
+                <select id="language-selector" class="language-selector" onchange="changeLanguage(this.value)">
+                    <option value="mr">मराठी</option>
+                    <option value="hi">हिंदी</option>
+                    <option value="en">English</option>
+                    <option value="kn">ಕನ್ನಡ</option>
+                    <option value="te">తెలుగు</option>
+                    <option value="ta">தமிழ்</option>
+                    <option value="gu">ગુજરાતી</option>
+                    <option value="bn">বাংলা</option>
+                </select>
+            </div>
+
+            <!-- Auth Buttons -->
+            <div class="auth-buttons">
+                <a href="login.html" id="login-btn" class="nav-link login-link">
+                    <span>🔐</span>
+                    <span data-i18n="login">लॉगिन</span>
+                </a>
+
+                <div class="user-menu hidden" id="user-menu">
+                    <div class="user-info">
+                        <span class="user-avatar">👨‍🌾</span>
+                        <span class="user-name" id="user-name">शेतकरी</span>
+                    </div>
+                    <button class="logout-btn" onclick="handleLogout()" data-i18n-title="logout">
+                        <span>🚪</span>
+                        <span class="logout-text" data-i18n="logout">बाहेर पडा</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="history-page">
+        <div class="container">
+            <!-- Login Required Message (Hidden by default) -->
+            <div id="login-required" class="no-history" style="display: none;">
+                <div class="no-history-icon">🔒</div>
+                <h3 data-i18n="historyLoginRequired">लॉगिन आवश्यक आहे</h3>
+                <p data-i18n="historyLoginMessage">तुमचा इतिहास पाहण्यासाठी कृपया लॉगिन करा</p>
+                <a href="login.html" class="cta-button">
+                    <span data-i18n="historyLoginBtn">लॉगिन करा</span>
+                    <span>→</span>
+                </a>
+            </div>
+
+            <!-- Page Header -->
+            <div class="page-header" id="page-header">
+                <h1 data-i18n="historyPageTitle">माझा तपासणी इतिहास</h1>
+                <p data-i18n="historyPageSubtitle">तुमच्या सर्व साप्ताहिक तपासण्यांचा आढावा</p>
+            </div>
+
+            <!-- Stats Summary -->
+            <div class="stats-grid" id="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">📊</div>
+                    <div class="stat-value" id="total-checkins">0</div>
+                    <div class="stat-label" data-i18n="historyTotalCheckins">एकूण तपासण्या</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📈</div>
+                    <div class="stat-value" id="avg-hope">-</div>
+                    <div class="stat-label" data-i18n="historyAvgHope">सरासरी आशा पातळी</div>
+                </div>
+                <div class="stat-card risk-card" id="last-risk-card">
+                    <div class="stat-icon">⚠️</div>
+                    <div class="stat-value" id="last-risk">-</div>
+                    <div class="stat-label" data-i18n="historyLastRisk">शेवटची जोखीम पातळी</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📅</div>
+                    <div class="stat-value" id="last-checkin">-</div>
+                    <div class="stat-label" data-i18n="historyLastCheckin">शेवटची तपासणी</div>
+                </div>
+            </div>
+
+            <!-- Trend Chart -->
+            <div class="chart-section">
+                <h2 data-i18n="historyHopeTrend">आशा पातळी ट्रेंड</h2>
+                <div class="chart-container" id="chart-container">
+                    <canvas id="hope-chart"></canvas>
+                </div>
+                <div class="no-data-message" id="no-chart-data" style="display: none;">
+                    <span>📊</span>
+                    <p data-i18n="historyChartMinimum">ट्रेंड पाहण्यासाठी किमान 2 तपासण्या आवश्यक</p>
+                </div>
+            </div>
+
+            <!-- History List -->
+            <div class="history-section">
+                <div class="section-header-row">
+                    <h2 data-i18n="historyRecordsTitle">तपासणी इतिहास</h2>
+                    <div class="filter-controls">
+                        <select id="risk-filter">
+                            <option value="all" data-i18n="historyFilterAll">सर्व</option>
+                            <option value="LOW" data-i18n="historyFilterLow">कमी जोखीम</option>
+                            <option value="MODERATE" data-i18n="historyFilterModerate">मध्यम जोखीम</option>
+                            <option value="HIGH" data-i18n="historyFilterHigh">जास्त जोखीम</option>
+                            <option value="CRITICAL" data-i18n="historyFilterCritical">अत्यंत जास्त</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="history-list" id="history-list">
+                    <!-- Dynamic content -->
+                </div>
+
+                <div class="no-history" id="no-history" style="display: none;">
+                    <div class="no-history-icon">📋</div>
+                    <h3 data-i18n="historyNoCheckins">अजून कोणतीही तपासणी नाही</h3>
+                    <p data-i18n="historyDoFirstCheckin">तुमची पहिली साप्ताहिक तपासणी करा</p>
+                    <a href="index.html#form-section" class="cta-button">
+                        <span data-i18n="historyDoCheckin">तपासणी करा</span>
+                        <span>→</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Export Options -->
+            <div class="export-section" id="export-section">
+                <h3 data-i18n="historyExportData">डेटा निर्यात करा</h3>
+                <div class="export-buttons">
+                    <button class="export-btn" onclick="exportToCSV()">
+                        <span>📄</span> <span data-i18n="historyDownloadCSV">CSV डाउनलोड</span>
+                    </button>
+                    <button class="export-btn" onclick="printHistory()">
+                        <span>🖨️</span> <span data-i18n="historyPrint">प्रिंट करा</span>
+                    </button>
+                    <button class="export-btn danger" onclick="clearHistory()">
+                        <span>🗑️</span> <span data-i18n="historyDeleteAll">इतिहास हटवा</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <span>🌾</span>
+                    <span data-i18n="appName">किसान सहाय्य</span>
+                </div>
+                <p data-i18n="historyFooterService">शेतकरी बंधू-भगिनींच्या सेवेत</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Detail Modal -->
+    <div class="modal-overlay" id="detail-modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <div class="modal-body" id="modal-body">
+                <!-- Dynamic content -->
+            </div>
+        </div>
+    </div>
+
+    <script src="lang.js"></script>
+    <script src="auth.js"></script>
+    <script src="history.js"></script>
+</body>
+
+</html>

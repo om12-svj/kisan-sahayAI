@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="mr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="किसान सहाय्य - Farmer Login Portal">
+    <title>लॉगिन | किसान सहाय्य</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="login.css">
+</head>
+
+<body class="login-page">
+    <!-- Animated Background -->
+    <div class="login-bg">
+        <div class="bg-pattern"></div>
+        <div class="floating-elements">
+            <span class="float-icon f1">🌾</span>
+            <span class="float-icon f2">🌿</span>
+            <span class="float-icon f3">🌱</span>
+            <span class="float-icon f4">☀️</span>
+            <span class="float-icon f5">💧</span>
+        </div>
+    </div>
+
+    <div class="login-container">
+        <!-- Language Selector -->
+        <div class="login-lang-selector">
+            <span class="lang-icon">🌐</span>
+            <select id="language-selector" class="language-selector" onchange="changeLanguage(this.value)">
+                <option value="mr">मराठी</option>
+                <option value="hi">हिंदी</option>
+                <option value="en">English</option>
+                <option value="kn">ಕನ್ನಡ</option>
+                <option value="te">తెలుగు</option>
+                <option value="ta">தமிழ்</option>
+                <option value="gu">ગુજરાતી</option>
+                <option value="bn">বাংলা</option>
+            </select>
+        </div>
+
+        <!-- Logo Section -->
+        <div class="login-header">
+            <div class="login-logo">
+                <span class="logo-emoji">🌾</span>
+                <h1 data-i18n="appName">किसान सहाय्य</h1>
+                <p>Farmer Support System</p>
+            </div>
+        </div>
+
+        <!-- Login Card -->
+        <div class="login-card">
+            <!-- Tab Navigation -->
+            <div class="auth-tabs">
+                <button class="auth-tab active" data-tab="login">
+                    <span class="tab-icon">🔐</span>
+                    <span data-i18n="login">लॉगिन</span>
+                </button>
+                <button class="auth-tab" data-tab="register">
+                    <span class="tab-icon">📝</span>
+                    <span data-i18n="register">नोंदणी</span>
+                </button>
+            </div>
+
+            <!-- Login Form -->
+            <form id="login-form" class="auth-form active">
+                <h2 data-i18n="welcome">स्वागत आहे!</h2>
+
+                <div class="form-group">
+                    <label>
+                        <span class="label-icon">📱</span>
+                        <span data-i18n="mobileNumber">मोबाईल नंबर</span>
+                    </label>
+                    <div class="input-wrapper">
+                        <span class="input-prefix">+91</span>
+                        <input type="tel" id="login-mobile" data-i18n-placeholder="mobilePlaceholder"
+                            placeholder="10 अंकी मोबाईल नंबर" maxlength="10" pattern="[0-9]{10}" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <span class="label-icon">🔒</span>
+                        <span data-i18n="password">पासवर्ड</span>
+                    </label>
+                    <div class="input-wrapper password-wrapper">
+                        <input type="password" id="login-password" data-i18n-placeholder="passwordPlaceholder"
+                            placeholder="तुमचा पासवर्ड" required>
+                        <button type="button" class="toggle-password" onclick="togglePassword('login-password')">
+                            👁️
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-options">
+                    <label class="checkbox-wrapper">
+                        <input type="checkbox" id="remember-me">
+                        <span class="checkmark"></span>
+                        <span data-i18n="rememberMe">मला लक्षात ठेवा</span>
+                    </label>
+                    <a href="#" class="forgot-link" onclick="showForgotPassword()" data-i18n="forgotPassword">पासवर्ड
+                        विसरलात?</a>
+                </div>
+
+                <button type="submit" class="auth-btn primary">
+                    <span class="btn-text" data-i18n="loginButton">लॉगिन करा</span>
+                    <span class="btn-loader"></span>
+                </button>
+
+                <div class="divider">
+                    <span data-i18n="orText">किंवा</span>
+                </div>
+
+                <div class="otp-options">
+                    <p class="otp-label" data-i18n="otpLogin">OTP द्वारे लॉगिन करा:</p>
+                    <div class="otp-buttons">
+                        <button type="button" class="otp-choice-btn" onclick="loginWithOTP('sms')">
+                            <span class="btn-icon">📱</span>
+                            <span data-i18n="smsOtp">SMS OTP</span>
+                        </button>
+                        <button type="button" class="otp-choice-btn whatsapp" onclick="loginWithOTP('whatsapp')">
+                            <span class="btn-icon">💬</span>
+                            <span data-i18n="whatsappOtp">WhatsApp OTP</span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Registration Form -->
+            <form id="register-form" class="auth-form">
+                <h2 data-i18n="newRegistration">नवीन नोंदणी</h2>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>
+                            <span class="label-icon">👨‍🌾</span>
+                            <span data-i18n="fullName">पूर्ण नाव</span>
+                        </label>
+                        <input type="text" id="reg-name" data-i18n-placeholder="fullNamePlaceholder"
+                            placeholder="तुमचे पूर्ण नाव" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>
+                            <span class="label-icon">📱</span>
+                            <span data-i18n="mobileNumber">मोबाईल नंबर</span>
+                        </label>
+                        <div class="input-wrapper">
+                            <span class="input-prefix">+91</span>
+                            <input type="tel" id="reg-mobile" data-i18n-placeholder="mobilePlaceholder"
+                                placeholder="10 अंकी नंबर" maxlength="10" pattern="[0-9]{10}" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row two-col">
+                    <div class="form-group">
+                        <label>
+                            <span class="label-icon">🏘️</span>
+                            <span data-i18n="village">गाव</span>
+                        </label>
+                        <input type="text" id="reg-village" data-i18n-placeholder="villagePlaceholder"
+                            placeholder="गावाचे नाव" required>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <span class="label-icon">📍</span>
+                            <span data-i18n="taluka">तालुका</span>
+                        </label>
+                        <input type="text" id="reg-taluka" data-i18n-placeholder="talukaPlaceholder"
+                            placeholder="तालुका" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <span class="label-icon">🗺️</span>
+                        <span data-i18n="district">जिल्हा</span>
+                    </label>
+                    <select id="reg-district" required>
+                        <option value="" data-i18n="selectDistrict">-- जिल्हा निवडा --</option>
+                        <option value="ahmednagar">अहमदनगर</option>
+                        <option value="akola">अकोला</option>
+                        <option value="amravati">अमरावती</option>
+                        <option value="aurangabad">औरंगाबाद</option>
+                        <option value="beed">बीड</option>
+                        <option value="bhandara">भंडारा</option>
+                        <option value="buldhana">बुलढाणा</option>
+                        <option value="chandrapur">चंद्रपूर</option>
+                        <option value="dhule">धुळे</option>
+                        <option value="gadchiroli">गडचिरोली</option>
+                        <option value="gondia">गोंदिया</option>
+                        <option value="hingoli">हिंगोली</option>
+                        <option value="jalgaon">जळगाव</option>
+                        <option value="jalna">जालना</option>
+                        <option value="kolhapur">कोल्हापूर</option>
+                        <option value="latur">लातूर</option>
+                        <option value="mumbai">मुंबई</option>
+                        <option value="nagpur">नागपूर</option>
+                        <option value="nanded">नांदेड</option>
+                        <option value="nandurbar">नंदुरबार</option>
+                        <option value="nashik">नाशिक</option>
+                        <option value="osmanabad">उस्मानाबाद</option>
+                        <option value="parbhani">परभणी</option>
+                        <option value="pune">पुणे</option>
+                        <option value="raigad">रायगड</option>
+                        <option value="ratnagiri">रत्नागिरी</option>
+                        <option value="sangli">सांगली</option>
+                        <option value="satara">सातारा</option>
+                        <option value="sindhudurg">सिंधुदुर्ग</option>
+                        <option value="solapur">सोलापूर</option>
+                        <option value="thane">ठाणे</option>
+                        <option value="wardha">वर्धा</option>
+                        <option value="washim">वाशीम</option>
+                        <option value="yavatmal">यवतमाळ</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <span class="label-icon">🌾</span>
+                        <span data-i18n="farmSize">शेती क्षेत्र (एकर)</span>
+                    </label>
+                    <input type="number" id="reg-farm-size" data-i18n-placeholder="farmSizePlaceholder"
+                        placeholder="उदा. 5" min="0" step="0.5" required>
+                </div>
+
+                <div class="form-row two-col">
+                    <div class="form-group">
+                        <label>
+                            <span class="label-icon">🔒</span>
+                            <span data-i18n="password">पासवर्ड</span>
+                        </label>
+                        <div class="input-wrapper password-wrapper">
+                            <input type="password" id="reg-password" data-i18n-placeholder="minCharsPlaceholder"
+                                placeholder="किमान 6 अक्षरे" minlength="6" required>
+                            <button type="button" class="toggle-password" onclick="togglePassword('reg-password')">
+                                👁️
+                            </button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <span class="label-icon">🔒</span>
+                            <span data-i18n="confirmPassword">पासवर्ड पुन्हा</span>
+                        </label>
+                        <div class="input-wrapper password-wrapper">
+                            <input type="password" id="reg-confirm" data-i18n-placeholder="confirmPlaceholder"
+                                placeholder="पुन्हा टाका" required>
+                            <button type="button" class="toggle-password" onclick="togglePassword('reg-confirm')">
+                                👁️
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <label class="checkbox-wrapper terms">
+                    <input type="checkbox" id="agree-terms" required>
+                    <span class="checkmark"></span>
+                    <span data-i18n="agreeTerms">मी अटी व शर्ती मान्य करतो</span>
+                </label>
+
+                <button type="submit" class="auth-btn primary">
+                    <span class="btn-text" data-i18n="registerButton">नोंदणी करा</span>
+                    <span class="btn-loader"></span>
+                </button>
+            </form>
+
+            <!-- OTP Form (hidden by default) -->
+            <form id="otp-form" class="auth-form">
+                <h2>OTP प्रविष्ट करा <small>Enter OTP</small></h2>
+
+                <p class="otp-message">
+                    <span id="otp-mobile">+91 XXXXXXXXXX</span> वर पाठवलेला OTP टाका
+                </p>
+
+                <div class="otp-inputs">
+                    <input type="text" maxlength="1" class="otp-digit" data-index="0">
+                    <input type="text" maxlength="1" class="otp-digit" data-index="1">
+                    <input type="text" maxlength="1" class="otp-digit" data-index="2">
+                    <input type="text" maxlength="1" class="otp-digit" data-index="3">
+                    <input type="text" maxlength="1" class="otp-digit" data-index="4">
+                    <input type="text" maxlength="1" class="otp-digit" data-index="5">
+                </div>
+
+                <div class="otp-timer">
+                    <span id="timer">01:00</span>
+                    <button type="button" id="resend-btn" class="resend-link" disabled onclick="resendOTP()">
+                        पुन्हा पाठवा
+                    </button>
+                </div>
+
+                <button type="submit" class="auth-btn primary">
+                    <span class="btn-text">सत्यापित करा</span>
+                    <span class="btn-loader"></span>
+                </button>
+
+                <button type="button" class="back-link" onclick="backToLogin()">
+                    ← मागे जा
+                </button>
+            </form>
+        </div>
+
+        <!-- Help Section -->
+        <div class="login-help">
+            <p>मदत हवी आहे? कॉल करा: <a href="tel:18002334000">1800-233-4000</a></p>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <span class="toast-icon">✓</span>
+        <span class="toast-message">Message here</span>
+    </div>
+
+    <script src="lang.js"></script>
+    <script src="auth.js"></script>
+</body>
+
+</html>

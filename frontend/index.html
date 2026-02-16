@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="mr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="किसान मानसिक आरोग्य सहाय्य - Indian Farmer Mental Health Support System for Maharashtra farmers">
+    <title>किसान सहाय्य | Farmer Support System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- Animated Background Elements -->
+    <div class="bg-elements">
+        <div class="floating-leaf leaf-1">🌾</div>
+        <div class="floating-leaf leaf-2">🌿</div>
+        <div class="floating-leaf leaf-3">🌱</div>
+        <div class="floating-leaf leaf-4">🍃</div>
+        <div class="sun-rays"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">
+                <span class="logo-icon">🌾</span>
+                <div class="logo-text">
+                    <h1 data-i18n="appName">किसान सहाय्य</h1>
+                    <p data-i18n="appTagline">Farmer Mental Health Support</p>
+                </div>
+            </div>
+            <nav class="nav-links">
+                <a href="#form-section" class="nav-link" data-i18n="navCheckin">Check-in</a>
+                <a href="history.html" class="nav-link" data-i18n="navHistory">History</a>
+                <a href="#helpline-section" class="nav-link" data-i18n="navHelplines">Helplines</a>
+                <a href="#about-section" class="nav-link" data-i18n="navAbout">About</a>
+            </nav>
+
+            <!-- Language Selector -->
+            <div class="language-selector-wrapper">
+                <span class="lang-icon">🌐</span>
+                <select id="language-selector" class="language-selector" onchange="changeLanguage(this.value)">
+                    <option value="mr">मराठी</option>
+                    <option value="hi">हिंदी</option>
+                    <option value="en">English</option>
+                    <option value="kn">ಕನ್ನಡ</option>
+                    <option value="te">తెలుగు</option>
+                    <option value="ta">தமிழ்</option>
+                    <option value="gu">ગુજરાતી</option>
+                    <option value="bn">বাংলা</option>
+                </select>
+            </div>
+
+            <!-- Auth Buttons -->
+            <div class="auth-buttons">
+                <a href="login.html" id="login-btn" class="nav-link login-link">
+                    <span>🔐</span>
+                    <span data-i18n="login">लॉगिन</span>
+                </a>
+
+                <div class="user-menu hidden" id="user-menu">
+                    <div class="user-info">
+                        <span class="user-avatar">👨‍🌾</span>
+                        <span class="user-name" id="user-name">शेतकरी</span>
+                    </div>
+                    <button class="logout-btn" onclick="handleLogout()" title="लॉगआउट">
+                        <span>🚪</span>
+                        <span class="logout-text" data-i18n="logout">बाहेर पडा</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="hero-content">
+                <h2 class="hero-title">
+                    <span class="marathi" data-i18n="heroTitle">शेतकरी बंधू-भगिनींसाठी</span>
+                    <span class="english" data-i18n="heroSubtitle">Supporting Our Farmers</span>
+                </h2>
+                <p class="hero-subtitle" data-i18n="heroDescription">
+                    तुमची काळजी आम्हाला आहे। Weekly check-in करा आणि योग्य मार्गदर्शन मिळवा।
+                </p>
+                <a href="#form-section" class="cta-button">
+                    <span data-i18n="ctaButton">साप्ताहिक तपासणी करा</span>
+                    <span class="btn-icon">→</span>
+                </a>
+            </div>
+            <div class="hero-illustration">
+                <div class="farmer-card">
+                    <div class="card-icon">👨‍🌾</div>
+                    <p data-i18n="heroCardText">तुम्ही एकटे नाही आहात</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Form Section -->
+    <section id="form-section" class="form-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 data-i18n="formTitle">साप्ताहिक तपासणी</h2>
+                <p data-i18n="formSubtitle">कृपया खालील माहिती भरा। तुमची सर्व माहिती गोपनीय राहील।</p>
+            </div>
+
+            <form id="farmer-form" class="farmer-form">
+                <div class="form-grid">
+                    <!-- Crop Condition -->
+                    <div class="form-group">
+                        <label class="form-label">
+                            <span class="label-icon">🌾</span>
+                            <span class="label-text" data-i18n="cropCondition">पीक स्थिती</span>
+                        </label>
+                        <div class="select-wrapper">
+                            <select id="crop" name="crop" required>
+                                <option value="" data-i18n="selectOption">-- निवडा --</option>
+                                <option value="excellent" data-i18n="cropExcellent">उत्कृष्ट</option>
+                                <option value="good" data-i18n="cropGood">चांगली</option>
+                                <option value="moderate" data-i18n="cropModerate">मध्यम</option>
+                                <option value="poor" data-i18n="cropPoor">खराब</option>
+                                <option value="destroyed" data-i18n="cropDestroyed">पूर्ण नुकसान</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Loan Pressure -->
+                    <div class="form-group">
+                        <label class="form-label">
+                            <span class="label-icon">💰</span>
+                            <span class="label-text" data-i18n="loanPressure">कर्जाचा भार</span>
+                        </label>
+                        <div class="select-wrapper">
+                            <select id="loan" name="loan" required>
+                                <option value="" data-i18n="selectOption">-- निवडा --</option>
+                                <option value="none" data-i18n="loanNone">कर्ज नाही</option>
+                                <option value="low" data-i18n="loanLow">कमी</option>
+                                <option value="medium" data-i18n="loanMedium">मध्यम</option>
+                                <option value="high" data-i18n="loanHigh">जास्त</option>
+                                <option value="severe" data-i18n="loanSevere">अत्यंत जास्त</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Sleep Quality -->
+                    <div class="form-group">
+                        <label class="form-label">
+                            <span class="label-icon">😴</span>
+                            <span class="label-text" data-i18n="sleepQuality">झोपेची गुणवत्ता</span>
+                        </label>
+                        <div class="select-wrapper">
+                            <select id="sleep" name="sleep" required>
+                                <option value="" data-i18n="selectOption">-- निवडा --</option>
+                                <option value="good" data-i18n="sleepGood">चांगली झोप (7+ तास)</option>
+                                <option value="fair" data-i18n="sleepFair">ठीक (5-6 तास)</option>
+                                <option value="poor" data-i18n="sleepPoor">कमी झोप (3-4 तास)</option>
+                                <option value="very_poor" data-i18n="sleepVeryPoor">अत्यंत कमी (<3 तास)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Family Support -->
+                    <div class="form-group">
+                        <label class="form-label">
+                            <span class="label-icon">👨‍👩‍👧‍👦</span>
+                            <span class="label-text" data-i18n="familySupport">कुटुंबाचा आधार</span>
+                        </label>
+                        <div class="select-wrapper">
+                            <select id="family" name="family" required>
+                                <option value="" data-i18n="selectOption">-- निवडा --</option>
+                                <option value="strong" data-i18n="familyStrong">मजबूत आधार</option>
+                                <option value="moderate" data-i18n="familyModerate">मध्यम आधार</option>
+                                <option value="weak" data-i18n="familyWeak">कमी आधार</option>
+                                <option value="none" data-i18n="familyNone">आधार नाही</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Hope Level -->
+                    <div class="form-group full-width">
+                        <label class="form-label">
+                            <span class="label-icon">💪</span>
+                            <span class="label-text" data-i18n="hopeLevel">आशा पातळी (1-10)</span>
+                        </label>
+                        <div class="range-container">
+                            <input type="range" id="hope" name="hope" min="1" max="10" value="5" class="range-input">
+                            <div class="range-labels">
+                                <span>1 (<span data-i18n="hopeLow">निराश</span>)</span>
+                                <span id="hope-value" class="current-value">5</span>
+                                <span>10 (<span data-i18n="hopeHigh">आशावादी</span>)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Additional Notes -->
+                    <div class="form-group full-width">
+                        <label class="form-label">
+                            <span class="label-icon">📝</span>
+                            <span class="label-text" data-i18n="additionalNotes">अतिरिक्त माहिती</span>
+                        </label>
+                        <textarea id="notes" name="notes" rows="3" data-i18n-placeholder="notesPlaceholder"
+                            placeholder="तुम्हाला आणखी काही सांगायचे असल्यास येथे लिहा..."></textarea>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-button" id="submit-btn">
+                    <span class="btn-text" data-i18n="analyzeButton">विश्लेषण करा</span>
+                    <span class="btn-loader"></span>
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Results Section (Hidden by default) -->
+    <section id="results-section" class="results-section hidden">
+        <div class="container">
+            <div class="results-card">
+                <!-- Risk Level -->
+                <div class="risk-indicator" id="risk-indicator">
+                    <div class="risk-icon" id="risk-icon">⚠️</div>
+                    <div class="risk-details">
+                        <h3 data-i18n="riskLevel">जोखीम पातळी</h3>
+                        <div class="risk-badge" id="risk-badge">MODERATE</div>
+                    </div>
+                </div>
+
+                <!-- Support Message -->
+                <div class="message-card">
+                    <h3>
+                        <span class="section-icon">💬</span>
+                        <span data-i18n="supportMessage">सहाय्य संदेश</span>
+                    </h3>
+                    <div class="message-content" id="support-message">
+                        <!-- Dynamic content -->
+                    </div>
+                </div>
+
+                <!-- Practical Suggestions -->
+                <div class="suggestions-card">
+                    <h3>
+                        <span class="section-icon">✅</span>
+                        <span data-i18n="practicalSuggestions">व्यावहारिक सूचना</span>
+                    </h3>
+                    <div class="suggestions-list" id="suggestions-list">
+                        <!-- Dynamic content -->
+                    </div>
+                </div>
+
+                <!-- Emergency Contacts (shown for high risk) -->
+                <div class="emergency-card" id="emergency-card">
+                    <h3>
+                        <span class="section-icon">🆘</span>
+                        <span data-i18n="emergencyContacts">तातडी संपर्क</span>
+                    </h3>
+                    <div class="contacts-grid">
+                        <a href="tel:9152987821" class="contact-item">
+                            <span class="contact-icon">📞</span>
+                            <span class="contact-name">iCall (TISS)</span>
+                            <span class="contact-number">9152987821</span>
+                        </a>
+                        <a href="tel:18602662345" class="contact-item">
+                            <span class="contact-icon">🏥</span>
+                            <span class="contact-name">Vandrevala Foundation</span>
+                            <span class="contact-number">1860-2662-345</span>
+                        </a>
+                        <a href="tel:18001801551" class="contact-item">
+                            <span class="contact-icon">🌾</span>
+                            <span class="contact-name">Kisan Call Centre</span>
+                            <span class="contact-number">1800-180-1551</span>
+                        </a>
+                        <a href="tel:18002334000" class="contact-item">
+                            <span class="contact-icon">📱</span>
+                            <span class="contact-name">Farmer Helpline</span>
+                            <span class="contact-number">1800-233-4000</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="result-actions">
+                    <button class="action-btn secondary" onclick="resetForm()">
+                        <span data-i18n="newCheckin">नवीन तपासणी</span>
+                    </button>
+                    <button class="action-btn primary" onclick="printResults()">
+                        <span data-i18n="printResults">प्रिंट करा</span>
+                    </button>
+                </div>
+
+                <!-- Disclaimer -->
+                <div class="disclaimer">
+                    <p>⚠️ <span data-i18n="disclaimer">टीप: हे वैद्यकीय किंवा कायदेशीर सल्ला नाही। तुम्हाला अधिक मदत हवी
+                            असल्यास कृपया तज्ञांशी बोला।</span></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Helpline Section -->
+    <section id="helpline-section" class="helpline-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 data-i18n="helplineTitle">मदत क्रमांक</h2>
+                <p data-i18n="helplineSubtitle">या सर्व सेवा विनामूल्य आणि गोपनीय आहेत</p>
+            </div>
+
+            <div class="helpline-grid">
+                <div class="helpline-card">
+                    <div class="helpline-icon">📞</div>
+                    <h3>iCall (TISS Mumbai)</h3>
+                    <p data-i18n="icallDesc">मराठी, हिंदी, English मध्ये बोलता येतं</p>
+                    <a href="tel:9152987821" class="helpline-number">9152987821</a>
+                    <span class="timing" data-i18n="icallTiming">सोम-शनि: 8am - 10pm</span>
+                </div>
+
+                <div class="helpline-card">
+                    <div class="helpline-icon">🏥</div>
+                    <h3>Vandrevala Foundation</h3>
+                    <p data-i18n="vandrevalaDesc">24/7 मानसिक आरोग्य सहाय्य</p>
+                    <a href="tel:18602662345" class="helpline-number">1860-2662-345</a>
+                    <span class="timing" data-i18n="vandrevelaTiming">24 तास उपलब्ध</span>
+                </div>
+
+                <div class="helpline-card">
+                    <div class="helpline-icon">🌾</div>
+                    <h3>Kisan Call Centre</h3>
+                    <p data-i18n="kisanDesc">शेती संबंधित सर्व समस्यांसाठी</p>
+                    <a href="tel:18001801551" class="helpline-number">1800-180-1551</a>
+                    <span class="timing" data-i18n="kisanTiming">सकाळी 6 ते रात्री 10</span>
+                </div>
+
+                <div class="helpline-card featured">
+                    <div class="helpline-icon">🆘</div>
+                    <h3>Farmer Helpline</h3>
+                    <p data-i18n="farmerHelplineDesc">कर्ज, पीक विमा, सरकारी योजना</p>
+                    <a href="tel:18002334000" class="helpline-number">1800-233-4000</a>
+                    <span class="timing" data-i18n="farmerHelplineTiming">कार्यालयीन वेळ</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about-section" class="about-section">
+        <div class="container">
+            <div class="about-content">
+                <h2 data-i18n="aboutTitle">या प्रणालीबद्दल</h2>
+                <p data-i18n="aboutDescription">
+                    किसान सहाय्य ही एक मानसिक आरोग्य सहाय्य प्रणाली आहे जी भारतातील शेतकऱ्यांसाठी विशेषत: तयार केलेली
+                    आहे।
+                    साप्ताहिक check-in द्वारे आम्ही तुमच्या एकूण परिस्थितीचे मूल्यांकन करतो आणि योग्य मार्गदर्शन देतो।
+                </p>
+                <div class="features-grid">
+                    <div class="feature">
+                        <span class="feature-icon">🔒</span>
+                        <h4 data-i18n="featureConfidential">गोपनीय</h4>
+                        <p data-i18n="featureConfidentialDesc">तुमची माहिती सुरक्षित</p>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">💚</span>
+                        <h4 data-i18n="featureEmpathetic">सहानुभूतीपूर्ण</h4>
+                        <p data-i18n="featureEmpatheticDesc">समजून घेणारे मार्गदर्शन</p>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">🌐</span>
+                        <h4 data-i18n="featureLanguage">बहुभाषिक</h4>
+                        <p data-i18n="featureLanguageDesc">तुमच्या भाषेत सहाय्य</p>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">⏰</span>
+                        <h4 data-i18n="featureAvailable">कधीही उपलब्ध</h4>
+                        <p data-i18n="featureAvailableDesc">24/7 ऑनलाइन</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <span>🌾</span>
+                    <span data-i18n="appName">किसान सहाय्य</span>
+                </div>
+                <p data-i18n="footerText">शेतकरी बंधू-भगिनींच्या सेवेत</p>
+                <p class="copyright">© 2026 Kisan Sahay. Made with ❤️ for Indian Farmers</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="lang.js"></script>
+    <script src="auth.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
